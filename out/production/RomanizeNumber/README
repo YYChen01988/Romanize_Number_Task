@@ -1,0 +1,39 @@
+# Roman Numeral Generator
+Converting integer number between 1 to 3999 to string Roman numerals.
+
+### Analysis
+In the supported range roman numerals have 7 distinct symbols:
+1,5 = I,V
+10,50 = X,L
+100,500 = C,D
+1000 = M
+The numbers in-between are represented by either addition or subtraction by these symbols.
+This is determined by the fact that a maximum of 3 numerals can be used in a row.
+
+### Approach and Assumptions
+This implementation is using a TreeMap as a look up table.
+The TreeMap is initialized with the 7 supported numerals as well as values which are represented by subtraction in the roman system
+ e.g. 1 to "I", 4 to "IV" and 5 to "V".
+
+I am then assuming that any number provided as input can be represented as a sum of these numbers.
+With this assumption I am able to reduce the problem in each iteration by subtracting the largest number from the lookup table.
+
+Since keys of the TreeMap are ordered the following algorithm is used:
+- the biggest occurring number in the TreeMap which is <= to the input number is selected using floorKey()
+- it's roman representation is concatenated to the solution
+- the number is subtracted from the input number
+- the above is repeated until the result of the subtraction is < 1
+
+Note: a recursive implementation of this algorithm would also be possible.
+
+### Implementation
+Firstly, I created the interface RomanNumeralGenerator as specified in the task description.
+For implementation of the Interface I created a class RomanNumeralGeneratorImpl.
+I created a test file RomanNumeralGeneratorImplTest and wrote 3 unit tests:
+ - 2 for edge scenarios and 1 for various supported values.
+
+In the generate method, I used an if statement to limit the available values between 1 and 3999.
+If this condition is met, a custom Exception is thrown: UnsupportedNumberException("Number is outside of range.").
+An exception was chosen rather than returning null or "".
+This ensures users of the function will handle the scenario during implementation avoiding unexpected problems during runtime.
+
